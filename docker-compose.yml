@@ -1,0 +1,64 @@
+version: '3'
+
+services:
+  data1:
+    image: elasticsearch:7.7.0
+    environment:
+      - node.name=data1
+      - node.master=true
+      - network.host=0.0.0.0
+      - discovery.type=zen
+      - discovery.seed_hosts=data1,data2,data3
+      - cluster.initial_master_nodes=data1,data2,data3
+      - cluster.name=valorant_cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+    volumes:
+      - data1_data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+  data2:
+    image: elasticsearch:7.7.0
+    environment:
+      - node.name=data2
+      - node.master=true
+      - network.host=0.0.0.0
+      - discovery.type=zen
+      - discovery.seed_hosts=data1,data2,data3
+      - cluster.initial_master_nodes=data1,data2,data3
+      - cluster.name=valorant_cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+    volumes:
+      - data2_data:/usr/share/elasticsearch/data
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+  data3:
+    image: elasticsearch:7.7.0
+    environment:
+      - node.name=data3
+      - node.master=true
+      - network.host=0.0.0.0
+      - discovery.type=zen
+      - discovery.seed_hosts=data1,data2,data3
+      - cluster.initial_master_nodes=data1,data2,data3
+      - cluster.name=valorant_cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+    volumes:
+      - data3_data:/usr/share/elasticsearch/data
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+
+volumes:
+  data1_data:
+  data2_data:
+  data3_data:
